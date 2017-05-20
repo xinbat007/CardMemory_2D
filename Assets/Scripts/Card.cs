@@ -20,17 +20,22 @@ public class Card : MonoBehaviour {
 	private GameObject _manager;
 
 	void Start () {
-		_state = 0;
+		_state = 1;
 		_manager = GameObject.FindGameObjectWithTag ("Manager");
 	}
 
 	public void setupGraphics() {
 		_cardBack = _manager.GetComponent<GameManager> ().getCardBack ();
-		_cardFace = _manager.GetComponent<GameManager> ().getCardFace (_cardFace);
+		_cardFace = _manager.GetComponent<GameManager> ().getCardFace (_cardValue);
 		flipCard ();
 	}
 
-	void flipCard() {
+	public void flipCard() {
+		if (_state == 0)
+			_state = 1;
+		else if (_state == 1)
+			_state = 0;
+		
 		if (_state == 0 && !DO_NOT) {
 			GetComponent<Image> ().sprite = _cardBack;
 		} else if (_state == 1 && !DO_NOT)
@@ -47,7 +52,7 @@ public class Card : MonoBehaviour {
 		set { _state = value; }
 	}
 
-	public int initialized {
+	public bool initialized {
 		get { return _initialized; }
 		set { _initialized = value; }
 	}
